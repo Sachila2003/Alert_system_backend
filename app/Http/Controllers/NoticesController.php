@@ -12,7 +12,7 @@ class NoticesController extends Controller
      */
     public function index()
     {
-        //
+        return auth()->user()->notices;
     }
 
     /**
@@ -20,7 +20,19 @@ class NoticesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:225',
+            'expiry_date' => 'required|date',
+            'latest_maintance_date' => 'required|date',
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $notice = Notices::create($data);
+
+        return response()->json([
+            'message' => 'Notice created successfully',
+            'notice' => $notice
+        ]);
     }
 
     /**

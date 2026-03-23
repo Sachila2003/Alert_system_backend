@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notices', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->required();
+            $table->string('name');
             $table->date('expire_date');
             $table->date('latest_maintance_date');
             $table->tinyInteger('status')->default(1);
