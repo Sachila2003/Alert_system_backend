@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notices;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NoticesController extends Controller
 {
@@ -15,6 +17,12 @@ class NoticesController extends Controller
         return auth()->user()->notices;
     }
 
+    public function notifications(){
+        return response()->json([
+            'notifications' => auth()->user()->notifications
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -22,7 +30,7 @@ class NoticesController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:225',
-            'expiry_date' => 'required|date',
+            'expire_date' => 'required|date',
             'latest_maintance_date' => 'required|date',
             'user_id' => 'required|exists:users,id'
         ]);
@@ -38,9 +46,20 @@ class NoticesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Notices $notices)
+    public function show($id)
     {
-        //
+        $notice = Auth::user()->notices()->find($id);
+
+        if (!$notice) {
+            return response()->json([
+                'message' => 'Notice not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'notice' => $notice
+        ]);
+
     }
 
     /**

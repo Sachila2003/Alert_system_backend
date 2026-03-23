@@ -12,4 +12,6 @@ Route::post('/login', [AuthController::class, 'login']);
 //protected router
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('register', [AuthController::class, 'register']);
+    Route::apiResource('notices', NoticesController::class);
+    Route::get('notifications', [NoticesController::class, 'notifications']);
 });

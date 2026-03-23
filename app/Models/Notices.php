@@ -9,7 +9,7 @@ class Notices extends Model
     protected $fillable = [
         'name',
         'expire_date',
-        'latest_maintace_date',
+        'latest_maintance_date',
         'status',
         'user_id'
     ];
